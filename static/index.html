@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+<head prefix="website: http://ogp.me/ns/website#">
+<title>SA Election Results Map</title>
+
+<meta property="og:title" content="SA Election Results Map" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="http://elections.adrianfrith.com/images/siteimg.png" />
+<meta property="og:url" content="http://elections.adrianfrith.com/" />
+<meta property="og:description" content="Detailed map of election results in South Africa" />
+
+<link rel="stylesheet" href="leaflet.css" />
+<link rel="stylesheet" href="style.css" />
+
+<script src="jquery-1.10.2.min.js"></script>
+<script src="jquery.number.js"></script>
+<script src="d3.v3.min.js"></script>
+<script src="leaflet.js"></script>
+<script src="TileLayer.GeoJSON.js"></script>
+<script src="Permalink.js"></script>
+
+</head>
+<body>
+
+<div id="bar"><div id="barinner">
+<div id="details">
+
+<div id="search">
+<span class="caption">Search:</span>&nbsp;
+<input type="text" id="searchbox" onkeydown="if (event.keyCode == 13) do_search()"/>
+</div>
+<hr />
+<div id="years">
+<span class="caption">Year:</span>&nbsp;
+<input type="radio" name="year" value="2014" onchange="switchYear()">2014</input>&nbsp;
+<input type="radio" name="year" value="2009" onchange="switchYear()">2009</input>
+</div>
+
+<div id="ballots">
+<span class="caption">Ballot:</span>&nbsp;
+<input type="radio" name="ballot" value="nat" onchange="switchBallot()">National</input>&nbsp;
+<input type="radio" name="ballot" value="prov" onchange="switchBallot()">Provincial</input>
+</div>
+
+<div id="levels">
+<span class="caption">Level of detail:</span><br />
+<input type="radio" name="level" value="prov" onchange="switchLevel()">Provinces</input><br />
+<input type="radio" name="level" value="dist" onchange="switchLevel()">District municipalities</input><br />
+<input type="radio" name="level" value="muni" onchange="switchLevel()">Local municipalities</input><br />
+<input type="radio" name="level" value="ward" onchange="switchLevel()">Wards</input><br />
+<input type="radio" name="level" value="vd" onchange="switchLevel()">Voting districts</input>
+</div>
+
+<hr />
+</div>
+<div class="hint">Click on an area on the map to see full results from that area.</div>
+
+<div id="placeinfo" style="display:none">
+<span id="placename"></span>
+
+<table class="votesum">
+<tr><td>Valid votes:</td><td id="vvalid"></td></tr>
+<tr><td>Spoilt votes:</td><td id="vspoilt"></td></tr>
+<tr><td>Total votes:</td><td id="vtotal"></td></tr>
+</table>
+
+<table class="voteinfo">
+<thead><tr>
+<th>Party</th>
+<th class="vnum">Votes</th>
+<th class="vperc">%</th>
+</tr></thead>
+<tbody></tbody>
+</table>
+</div>
+
+<div id="legend">
+<hr />
+<span class="caption">Colour scheme:</span>&nbsp;
+<select id="colscheme" onchange="switchScheme()">
+<option value="winner">Leading party</option>
+<option value="ANC">ANC vote</option>
+<option value="DA">DA vote</option>
+<option value="COPE">COPE vote</option>
+<option value="EFF">EFF vote</option>
+<option value="IFP">IFP vote</option>
+<option value="NFP">NFP vote</option>
+<option value="blank">Blank</option>
+</select>
+
+<div id="winner-legend">
+<table>
+<thead>
+<tr>
+<td></td>
+<td class="leghead">&lt;50%</td>
+<td class="leghead">&lt;60%</td>
+<td class="leghead">&lt;70%</td>
+<td class="leghead">&lt;80%</td>
+<td class="leghead">&lt;90%</td>
+<td class="leghead">&gt;90%</td>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+</div>
+
+<div id="heat-legend">
+<table>
+<tr>
+<td class="legcel">0&ndash;12.5%</td>
+<td class="legcel">12.5&ndash;25%</td>
+<td class="legcel">25&ndash;37.5%</td>
+<td class="legcel">37.5&ndash;50%</td>
+</tr>
+<tr>
+<td class="legcel">50&ndash;62.5%</td>
+<td class="legcel">62.5&ndash;75%</td>
+<td class="legcel">75&ndash;87.5%</td>
+<td class="legcel">87.5&ndash;100%</td>
+</tr>
+</table>
+</div>
+
+<a id="colblind" href="javascript: flipColourBlind()">Colourblind?</a>
+</div>
+
+</div></div>
+
+<div id="map"></div>
+
+<script src="main.js"></script>
+</body></html>
